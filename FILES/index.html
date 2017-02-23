@@ -1,0 +1,85 @@
+<!--
+Musician Database App
+Documentation is in HTML comments below.
+Authors: Henry Henderson, Andrew Madden, Andy Thornburg, Rob Martin, Zach Wiseman
+-->
+<!DOCTYPE html>
+<html lang="en" ng-app="music">
+    <head>
+        <title>Musician Database</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="style.css">
+        <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    </head>
+
+    <body ng-controller="MusicianController">
+        <section>
+           <table class="table table-striped table-bordered">
+               <tr>
+                  <!-- ng-click allows us to assign a sort variable and sort ascendingly based on selection -->
+                   <th><a href="" ng-click="order='artist'">Artist</a></th>
+                   <th><a href="" ng-click="order='genre'">Genre</a></th>
+                   <th><a href="" ng-click="order='albums'">Albums</a></th>
+                   <th><a href="" ng-click="order='songs'">Songs</a></th>
+                   <th class="modify"><button class="btn btn-default" ng-click="shownClicked()" ng-hide="shown">Show All Artists</button></th>
+               </tr>
+
+               <tr ng-repeat="m in musicians | orderBy: order">
+                   <td>{{m.name}}</td>
+                   <td>{{m.genre}}</td>
+                   <td>{{m.albums}}</td>
+                   <td>
+                     <ul>
+                        <!-- Loops through songs, displaying only those that below to the artist. Append a X icon to call delete function -->
+                         <li ng-repeat="s in songs | filter: m.name">
+                            {{s.song}} <a href="" ng-click="$parent.removeSong(s)" ng-hide="addingSongFlag"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                         </li>
+                     </ul>
+                       <!-- Delete button for song -->
+                       <a href="" ng-click="$parent.addingSong(m)" ng-hide="addingSongFlag"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                   </td>
+
+                   <!-- Modify column, allows user to modify artist info, or delete artist record -->
+                   <td><button class="btn btn-danger" ng-click="$parent.remove(m)">Delete Entry</button> <button class="btn btn-primary" ng-click="$parent.edit(m);">Edit</button></td>
+               </tr>
+           </table>
+        </section>
+
+       <!-- Panel at the bottom that allows user to add new artist by default but will change based on options selected. Eg: adding a new song will change interface to request a new song, modifying an artist will change button to say "Update" instead of "Add" -->
+        <section class="modifyPanel">
+            <form class="form-inline" ng-model="artistPanel" ng-hide="addingSongFlag">
+                <div class="form-group">
+                    <label>Artist</label>
+                    <input type="text" ng-model="name" class="form-control" placeholder="Henry Henderson">
+                </div>
+                <div class="form-group">
+                    <label>Genre</label>
+                    <input type="text" ng-model="genre" class="form-control" placeholder="Rock">
+                </div>
+                <div class="form-group">
+                    <label>Albums</label>
+                    <input type="text" ng-model="albums" class="form-control" placeholder="Album">
+                </div>
+
+                <button type="submit" class="btn btn-default" ng-disabled="!(name.length && genre.length && albums.length)" ng-click="add()" ng-hide="editing">Add</button>
+                <!-- If user is updating artist info, we display this and hide the button above -->
+                <button type="submit" class="btn btn-success" ng-disabled="!(name.length && genre.length && albums.length)" ng-click="update()" ng-show="editing">Update</button>
+            </form>
+
+            <!-- Add new song options. Only displays if user is adding a song -->
+            <form class="form-inline" ng-model="songPanel" ng-show="addingSongFlag">
+               <div class="form-group">
+                   <label>New Song</label>
+                    <input type="text" ng-model="song" class="form-control" placeholder="Imagine">
+                    <button type="submit" class="btn btn-default" ng-disabled="!(song.length)" ng-click="addSong()">Add Song</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- We load these last in case they're not cached -->
+        <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js">
+        </script>
+        <script src='music.js'></script>
+    </body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "MusicianDatabaseApp",
+  "version": "1.0.0",
+  "description": "simple app using the MEAN stack to store artists and their info.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acmadden/MusicApp.git"
+  },
+  "author": "Henry Henderson, Andrew Madden, Andy Thornburg, Rob Martin, Zach Wiseman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acmadden/MusicApp/issues"
+  },
+  "homepage": "https://github.com/acmadden/MusicApp",
+  "dependencies": {
+    "express3": "^0.0.0",
+    "mongoose": "^4.0.1"
+  },
+  "devDependencies": {}
+}
